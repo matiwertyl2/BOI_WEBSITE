@@ -1,0 +1,27 @@
+{% if tasks %}
+<table class="table table-hover">
+	<thead class="table-inverse">
+		<tr>
+			<th>name</th>
+			{% if not olympiad_view %}
+				<th>olympiad</th>
+			{% endif %}
+			<th>files</th>
+			<th>avg. score</th>
+			<th>perfect scores</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if chosen_task %}
+		{% with task=chosen_task chosen=True %}
+			{% include 'olymp/task_row.html' %}
+		{% endwith %}
+	{% endif %}
+	{% for task in tasks %}
+		{% if task != chosen_task %}
+			{% include 'olymp/task_row.html' %}
+		{% endif %}
+	{% endfor %}
+	</tbody>
+	</table>
+	{% endif %}

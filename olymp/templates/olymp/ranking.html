@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Ranking of {{olympiad}}
+{% endblock %}
+
+{% block content %}
+
+		{% with participations=olympiad.participants %}
+				{% include 'olymp/ranking_view.html' %}
+		{% endwith %}
+
+{% endblock %}

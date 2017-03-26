@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <meta name="description" content="">
+  <meta name="author" content="BOI">
+
+  <title>Baltic Olympiad in Informatics</title>
+
+  <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static "bootstrap/css/custom.css" %}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="blog-masthead">
+	<div class="container">
+		<nav class="nav blog-nav">
+        {% for page in ordered_pages %}
+          <a class="nav-link" href="{{ page.url }}">{{ page.title }}</a>
+        {% endfor %}
+		</nav>
+	</div>
+</div>
+
+<div class="blog-header">
+  <div class="container">
+    <h1 class="blog-title">Baltic Olympiad in Informatics</h1>
+    <p class="lead blog-description">Annual informatics competition for high school students.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 blog-main">
+
+      <h1>
+        {% block title %}
+        {% endblock %}
+      </h1>
+
+      {% block content %} {% endblock %}
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

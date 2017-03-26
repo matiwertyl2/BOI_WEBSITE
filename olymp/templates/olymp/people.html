@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+People
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+	{% if people %}
+		Here are the list of people who participated in or organized Baltic Olympiad
+		in Informatics.
+		<ul>
+		{% for person in people %}
+			<li><a href="{% url 'person' person.id %}">{{ person }}</a>
+			{% for participation in person.participations_list %}
+				{% if participation.award == "golden medal" %}
+					<img src="{% static 'olymp/golden.png' %}">
+				{% elif participation.award == "silver medal" %}
+					<img src="{% static 'olymp/silver.png' %}">
+				{% elif participation.award == "bronze medal" %}
+					<img src="{% static 'olymp/bronze.png' %}">
+				{% endif %}
+			{% endfor %}
+			</li>
+		{% endfor %}
+	</ul>
+
+	{% else %}
+		<p>Strange, there's noone here.</p>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% if participations %}
+  <table class="table table-hover">
+    <thead class="table-inverse">
+      <tr>
+        <th>#</th><th>name</th><th>country</th>
+        {% if not short %}
+          {% for problem in olympiad.problems %}
+            <th> {{ problem.shortcut }} </th>
+          {% endfor %}
+        {% endif %}
+        <th>score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for participation in participations %}
+      <tr
+      {% if not short and participation.award %}
+        class='
+          {% if participation.award == "golden medal" %}
+            table-golden
+          {% elif participation.award == "silver medal" %}
+            table-silver
+          {% elif participation.award == "bronze medal" %}
+            table-bronze
+          {% endif %}
+        '
+      {% endif %}
+      >
+        <td>{{ participation.place }} </td>
+        <td><a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a></td>
+        <td><a href="{% url 'country' participation.country.code %}">{{ participation.country }}</a></td>
+        {% if not short %}
+          {% for score in participation.scores %}
+            <td>
+              {% if score %}
+                {{ score }}
+              {% else %}
+                -
+              {% endif %}
+           </td>
+          {% endfor %}
+        {% endif %}
+        <td>{{ participation.final_score }}</td>
+      </tr>
+      {% endfor %}
+  </table>
+{% endif %}

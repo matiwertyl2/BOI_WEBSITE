@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{olympiad}}
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+	<div class="col-md-6">
+		<h3>Golden medalists</h3>
+		{% with participations=olympiad.golden_medalists short=True %}
+			<small>
+				{% include 'olymp/ranking_view.html' %}
+			</small>
+		{% endwith %}
+		<p><a href="{% url 'ranking' olympiad.id %}">see full ranking &raquo;</a></p>
+	</div>
+	<div class="col-md-6">
+		<h3>Tasks</h3>
+		{% with tasks=olympiad.problems olympiad_view=True %}
+			<small>
+				{% include 'olymp/tasks_view.html' %}
+			</small>
+		{% endwith %}
+	</div>
+	</div>
+	<h3>Participating teams</h3>
+	<div class="row">
+		{% for country, participations in participations %}
+		<div class="col-md-4">
+			<h4><a href="{% url 'country' country.code %}">{{country}}</a></h4>
+				{% include 'olymp/team_view.html' %}
+		</div>
+		{% endfor %}
+	</div>
+
+		</div>
+	</div>
+
+{% endblock %}
