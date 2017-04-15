@@ -200,7 +200,6 @@ class Task(models.Model):
 
     def perfect_score_example(self):
         ps = self.perfect_scores_for_task()
-        print(ps)
         if ps:
             from random import choice
             return choice(ps)
