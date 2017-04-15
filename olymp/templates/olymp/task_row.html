@@ -35,7 +35,9 @@
   <td>{{task.average_score_for_task}}</td>
   <td>{{task.perfect_scores_for_task|length}}
     {% if chosen and task.perfect_score_example %}
-</br><small>including <a href="{% url 'person' task.perfect_score_example.participation.person.id %}">{{ task.perfect_score_example.participation.person }}</a></small>
+      {% with example=task.perfect_score_example.participation.person %}
+</br><small>including <a href="{% url 'person' example.id %}">{{ example }}</a></small>
+      {% endwith %}
     {% endif %}
   </td>
 </tr>
