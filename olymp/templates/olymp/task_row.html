@@ -33,5 +33,9 @@
     {% endif %}
   </td>
   <td>{{task.average_score_for_task}}</td>
-  <td>{{task.perfect_scores_for_task}}</td>
+  <td>{{task.perfect_scores_for_task|length}}
+    {% if task.perfect_score_example %}
+</br><small>including <a href="{% url 'person' task.perfect_score_example.participation.person.id %}">{{ task.perfect_score_example.participation.person }}</a></small>
+    {% endif %}
+  </td>
 </tr>

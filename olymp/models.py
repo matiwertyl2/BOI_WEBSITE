@@ -195,8 +195,16 @@ class Task(models.Model):
             return 0.0
 
     def perfect_scores_for_task(self):
-        return len(list(filter(
-            lambda x: x.result == self.perfect_score, self.score_set.all())))
+        return list(filter(
+            lambda x: x.result == self.perfect_score, self.score_set.all()))
+
+    def perfect_score_example(self):
+        ps = self.perfect_scores_for_task()
+        print(ps)
+        if ps:
+            from random import choice
+            return choice(ps)
+        return None
 
     def __str__(self):
         return 'Problem {} ({}) on {}'.format(self.name, self.shortcut,
