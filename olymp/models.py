@@ -66,6 +66,32 @@ class Country(Entity):
             return min(participations)
 
 
+class Person(Entity):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    photo = models.ImageField(null=True, upload_to='photos/', blank=True)
+    email = models.EmailField(max_length=200, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    sexes = [
+     ('M', 'Male'),
+     ('F', 'Female')]
+    sex = models.CharField(choices=sexes, max_length=1, null=True, blank=True)
+
+    class Meta:
+        ordering = [
+         'last_name', 'first_name']
+        verbose_name_plural = 'People'
+
+    def participated_olympiads_no(self):
+        return len(self.participation_set.filter(function="PAR"))
+
+    def participations_list(self):
+        return self.participation_set.all()
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+
 class Olympiad(models.Model):
     city = models.CharField(max_length=200)
     country = models.ForeignKey(Country)
@@ -102,6 +128,19 @@ class Olympiad(models.Model):
         return list(sorted(filter(
             lambda x: x.function == 'PAR',
             self.participation_set.all()), key=lambda x: -x.final_score()))
+
+    def president(self):
+        return self.participation_set.filter(function="PRE")
+
+    def organizing_committee(self):
+        return self.participation_set.filter(function="ORG") | \
+               self.participation_set.filter(function="PRE")
+
+    def scientific_committee(self):
+        return self.participation_set.filter(function="SC")
+
+    def technical_committee(self):
+        return self.participation_set.filter(function="TC")
 
     def golden_medalists(self):
         return list(filter(
@@ -159,32 +198,6 @@ class Task(models.Model):
                                               str(self.olympiad))
 
 
-class Person(Entity):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    photo = models.ImageField(null=True, upload_to='photos/', blank=True)
-    email = models.EmailField(max_length=200, null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    sexes = [
-     ('M', 'Male'),
-     ('F', 'Female')]
-    sex = models.CharField(choices=sexes, max_length=1, null=True, blank=True)
-
-    class Meta:
-        ordering = [
-         'last_name', 'first_name']
-        verbose_name_plural = 'People'
-
-    def participated_olympiads_no(self):
-        return len(self.participation_set.filter(function="PAR"))
-
-    def participations_list(self):
-        return self.participation_set.all()
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
-
-
 class Participation(models.Model):
     olympiad = models.ForeignKey(Olympiad, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
@@ -195,7 +208,8 @@ class Participation(models.Model):
     function_list = [
      ('PAR', 'participant'),
      ('LEA', 'team leader'),
-     ('OOC', 'out of competition'),
+     ('OOC', 'second team (out of competition)'),
+     ('PRE', 'president of the competition'),
      ('ORG', 'organization committee'),
      ('SC', 'scientific committee'),
      ('TC', 'technical committee'),

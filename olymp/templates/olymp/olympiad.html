@@ -17,13 +17,15 @@ Baltic Olympiad in Informatics {{olympiad.year}}
 			<img class="img-rounded" src="{{ olympiad.logo.url }}">
 			</center>
 		{% endif %}
-		<table class="table table-condensed">
+		<table class="table">
 		<tr><td><strong>Place</strong></td><td> {{olympiad.city}}, {{olympiad.country|country_url}}</td></tr>
 		<tr><td><strong>Dates</strong></td><td> {{olympiad.start_date}} - {{olympiad.end_date}}</td></tr>
-		<tr><td><strong>Website</strong></td><td><a href="{{olympiad.website}}">{{olympiad.website}}</a></td></tr>
+		{% if olympiad.website %}
+			<tr><td><strong>Website</strong></td><td><a href="{{olympiad.website}}">{{olympiad.website}}</a></td></tr>
+		{% endif %}
 		<tr><td><strong>Countries</strong></td><td>
 			{% for country in olympiad.participated_countries %}
-				{{country|country_url}}
+				{{country|country_url}}</br>
 			{% endfor %}
 		</td></tr>
 		<tr><td><strong>Participants</strong></td><td>
@@ -32,6 +34,38 @@ Baltic Olympiad in Informatics {{olympiad.year}}
 		<tr><td><strong>Attendees</strong></td><td>
 			{{olympiad.people | length}}
 		</td></tr>
+		{% if olympiad.president %}
+		<tr><td><strong>President</strong></td><td>
+		{% for participation in olympiad.president %}
+			<a href="{% url 'person' participation.person.id %}">
+				{{participation.person}}</a></br>
+		{% endfor %}
+		</td></tr>
+		{% endif %}
+		{% if olympiad.organizing_committee %}
+			<tr><td><strong>Organizing committee</strong></td><td>
+			{% for participation in olympiad.organizing_committee %}
+			<a href="{% url 'person' participation.person.id %}">
+				{{participation.person}}</a></br>
+			{% endfor %}
+			</td></tr>
+		{% endif %}
+		{% if olympiad.scientific_committee %}
+			<tr><td><strong>Scientific committee</strong></td><td>
+			{% for participation in olympiad.scientific_committee %}
+			<a href="{% url 'person' participation.person.id %}">
+				{{participation.person}}</a></br>
+			{% endfor %}
+			</td></tr>
+		{% endif %}
+		{% if olympiad.technical_committeee %}
+			<tr><td><strong>Technical committee</strong></td><td>
+			{% for participation in olympiad.technical_committeee %}
+			<a href="{% url 'person' participation.person.id %}">
+				{{participation.person}}</a></br>
+			{% endfor %}
+			</td></tr>
+		{% endif %}
 		</table>
 	</div>
 	<div class="col-md-6">
@@ -44,14 +78,6 @@ Baltic Olympiad in Informatics {{olympiad.year}}
 		{% with tasks=olympiad.problems olympiad_view=True %}
 				{% include 'olymp/tasks_view.html' %}
 		{% endwith %}
-		{% if staff %}
-			<h3>Staff</h3>
-			<ul>
-			{% for participation in staff %}
-				<li><a href="{% url 'person' participation.person.id %}">{{participation.person}}</a> ({{participation.function_name}})</li>
-			{% endfor %}
-			</ul>
-		{% endif %}
 	</div>
 	</div>
 	<h3>Participating teams</h3>

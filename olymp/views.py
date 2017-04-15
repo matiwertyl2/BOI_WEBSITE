@@ -23,11 +23,7 @@ def olympiad(request, olympiad_id):
              Participation.objects.filter(
                 country=country, olympiad=olympiad, function="LEA"),
         ))
-    staff = olympiad.participation_set.filter(function="ORG")
-    staff |= olympiad.participation_set.filter(function="SC")
-    staff |= olympiad.participation_set.filter(function="TC")
-    context = {'olympiad': olympiad, 'participations': participations,
-               'staff': staff}
+    context = {'olympiad': olympiad, 'participations': participations}
     return render(request, 'olymp/olympiad.html', context)
 
 
