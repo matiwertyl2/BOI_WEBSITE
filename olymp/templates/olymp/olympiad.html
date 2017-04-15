@@ -24,9 +24,13 @@ Baltic Olympiad in Informatics {{olympiad.year}}
 			<tr><td><strong>Website</strong></td><td><a href="{{olympiad.website}}">{{olympiad.website}}</a></td></tr>
 		{% endif %}
 		<tr><td><strong>Countries</strong></td><td>
+			<div class="row">
 			{% for country in olympiad.participated_countries %}
-				{{country|country_url}}</br>
+				<div class="col-md-6">
+				{{country|country_url}}
+				</div>
 			{% endfor %}
+			</div>
 		</td></tr>
 		<tr><td><strong>Participants</strong></td><td>
 			{{olympiad.participants_number}}
@@ -36,34 +40,50 @@ Baltic Olympiad in Informatics {{olympiad.year}}
 		</td></tr>
 		{% if olympiad.president %}
 		<tr><td><strong>President</strong></td><td>
+		<div class="row">
 		{% for participation in olympiad.president %}
+			<div class="col-md-6">
 			<a href="{% url 'person' participation.person.id %}">
-				{{participation.person}}</a></br>
+				{{participation.person}}</a>
+			</div>
 		{% endfor %}
+		</div>
 		</td></tr>
 		{% endif %}
 		{% if olympiad.organizing_committee %}
 			<tr><td><strong>Organizing committee</strong></td><td>
-			{% for participation in olympiad.organizing_committee %}
-			<a href="{% url 'person' participation.person.id %}">
-				{{participation.person}}</a></br>
-			{% endfor %}
-			</td></tr>
+				<div class="row">
+				{% for participation in olympiad.organizing_committee %}
+					<div class="col-md-6">
+					<a href="{% url 'person' participation.person.id %}">
+						{{participation.person}}</a>
+					</div>
+				{% endfor %}
+				</div>
+				</td></tr>
 		{% endif %}
 		{% if olympiad.scientific_committee %}
-			<tr><td><strong>Scientific committee</strong></td><td>
+		<tr><td><strong>Scientific committee</strong></td><td>
+			<div class="row">
 			{% for participation in olympiad.scientific_committee %}
-			<a href="{% url 'person' participation.person.id %}">
-				{{participation.person}}</a></br>
+				<div class="col-md-6">
+				<a href="{% url 'person' participation.person.id %}">
+					{{participation.person}}</a>
+				</div>
 			{% endfor %}
+			</div>
 			</td></tr>
 		{% endif %}
-		{% if olympiad.technical_committeee %}
-			<tr><td><strong>Technical committee</strong></td><td>
-			{% for participation in olympiad.technical_committeee %}
-			<a href="{% url 'person' participation.person.id %}">
-				{{participation.person}}</a></br>
+		{% if olympiad.technical_committee %}
+		<tr><td><strong>Technical committee</strong></td><td>
+			<div class="row">
+			{% for participation in olympiad.technical_committee %}
+				<div class="col-md-6">
+				<a href="{% url 'person' participation.person.id %}">
+					{{participation.person}}</a>
+				</div>
 			{% endfor %}
+			</div>
 			</td></tr>
 		{% endif %}
 		</table>
