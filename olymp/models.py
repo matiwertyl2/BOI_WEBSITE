@@ -129,6 +129,11 @@ class Olympiad(models.Model):
             lambda x: x.function == 'PAR',
             self.participation_set.all()), key=lambda x: -x.final_score()))
 
+    def all_participants(self):
+        return list(sorted(filter(
+            lambda x: x.function == 'PAR' or x.function == 'OOC',
+            self.participation_set.all()), key=lambda x: -x.final_score()))
+
     def president(self):
         return self.participation_set.filter(function="PRE")
 

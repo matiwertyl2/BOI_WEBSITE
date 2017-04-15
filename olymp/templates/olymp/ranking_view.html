@@ -28,21 +28,27 @@
         '
       {% endif %}
       >
-        <td>{{ participation.place }} </td>
+        <td>
+          {% if participation.function == "PAR" %}
+            {{ participation.place }}
+          {% else %}
+            OOC
+          {% endif %}
+        </td>
         <td><a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a></td>
         <td>{{ participation.country|country_url }}</a></td>
         {% if not short %}
           {% for score in participation.scores %}
             <td>
               {% if score %}
-                {{ score }}
+                {{ score|floatformat:"-2" }}
               {% else %}
                 -
               {% endif %}
            </td>
           {% endfor %}
         {% endif %}
-        <td>{{ participation.final_score }}</td>
+        <td>{{ participation.final_score|floatformat:"-2" }}</td>
       </tr>
       {% endfor %}
   </table>

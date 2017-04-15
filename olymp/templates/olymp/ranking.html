@@ -6,7 +6,7 @@ Ranking of {{olympiad}}
 
 {% block content %}
 
-		{% with participations=olympiad.participants %}
+		{% with participations=olympiad.all_participants %}
 				{% include 'olymp/ranking_view.html' %}
 		{% endwith %}
 
