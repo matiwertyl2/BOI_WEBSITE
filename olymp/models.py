@@ -198,6 +198,7 @@ class Task(models.Model):
         return list(filter(
             lambda x: x.result == self.perfect_score, self.score_set.all()))
 
+    @memoize(timeout=60)
     def perfect_score_example(self):
         ps = self.perfect_scores_for_task()
         if ps:
