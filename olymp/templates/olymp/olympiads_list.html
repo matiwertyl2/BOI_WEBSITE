@@ -4,21 +4,19 @@
 <table class="table table-hover">
 	<thead class="table-inverse">
 		<tr>
-			<th>no.</th>
 			<th>olympiad</th>
 			{% if not country_view %}
 				<th>country</th>
 			{% endif %}
 			<th>city</th>
 			<th>dates</th>
-			<th>participants</th>
+			<th>P / A / C <span data-toggle="tooltip" data-placement="bottom" title="participants / attendees / countries">(?)</span></th>
 			<th>official website</th>
 		</tr>
 	</thead>
 	<tbody>
 	{% for olympiad in olympiads %}
 	<tr>
-    <td> {{olympiad.number}}
   	<td>
       <strong><a href="{% url 'olympiad' olympiad.pk %}">{{olympiad}}</a></strong>
     </td>
@@ -28,8 +26,12 @@
 			</td>
 			{% endif %}
 		<td>{{olympiad.city}}</td>
-    <td>{{olympiad.start_date}} - {{olympiad.end_date}}</td>
-    <td>{{olympiad.participants_number}}</td>
+    <td>
+			{% if olympiad.start_date %}
+			{{olympiad.start_date}} - {{olympiad.end_date}}
+			{% endif %}
+		</td>
+    <td>{{olympiad.participants_number}} / {{olympiad.people | length}} / {{olympiad.countries_number}}</td>
 		<td>
 		{% if olympiad.website %}
 			<a href="{{olympiad.website}}">{{olympiad.website}}</a>

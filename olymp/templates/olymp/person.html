@@ -15,8 +15,7 @@
             <tr class="table-inverse">
               <th>Olympiad</th>
               <th>Country</th>
-              <th>Function</th>
-              <th>Award</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -24,9 +23,12 @@
             <tr>
               <td><a href="{% url 'olympiad' participation.olympiad.id %}">{{ participation.olympiad }}</a></td>
               <td>{{ participation.country|country_url }}</td>
-              <td>{{ participation.function_name }}</td>
               <td>
-                {{ participation.award | award:True }}
+                {% if participation.award %}
+                  {{ participation.award | award:True }}
+                {% else %}
+                  {{ participation.function_name }} 
+                {% endif %}
               </td>
             </tr>
             {% endfor %}

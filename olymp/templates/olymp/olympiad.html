@@ -1,35 +1,62 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{olympiad}}
+Baltic Olympiad in Informatics {{olympiad.year}}
 {% endblock %}
 
 {% load customurls %}
 
 {% block content %}
 
+
+
 	<div class="row">
+	<div class="col-md-6">
+		{% if olympiad.logo %}
+			<center>
+			<img class="img-rounded" src="{{ olympiad.logo.url }}">
+			</center>
+		{% endif %}
+		<table class="table table-condensed">
+		<tr><td><strong>Place</strong></td><td> {{olympiad.city}}, {{olympiad.country|country_url}}</td></tr>
+		<tr><td><strong>Dates</strong></td><td> {{olympiad.start_date}} - {{olympiad.end_date}}</td></tr>
+		<tr><td><strong>Website</strong></td><td><a href="{{olympiad.website}}">{{olympiad.website}}</a></td></tr>
+		<tr><td><strong>Countries</strong></td><td>
+			{% for country in olympiad.participated_countries %}
+				{{country|country_url}}
+			{% endfor %}
+		</td></tr>
+		<tr><td><strong>Participants</strong></td><td>
+			{{olympiad.participants_number}}
+		</td></tr>
+		<tr><td><strong>Attendees</strong></td><td>
+			{{olympiad.people | length}}
+		</td></tr>
+		</table>
+	</div>
 	<div class="col-md-6">
 		<h3>Golden medalists</h3>
 		{% with participations=olympiad.golden_medalists short=True %}
-			<small>
 				{% include 'olymp/ranking_view.html' %}
-			</small>
 		{% endwith %}
 		<p><a href="{% url 'ranking' olympiad.id %}">see full ranking &raquo;</a></p>
-	</div>
-	<div class="col-md-6">
 		<h3>Tasks</h3>
 		{% with tasks=olympiad.problems olympiad_view=True %}
-			<small>
 				{% include 'olymp/tasks_view.html' %}
-			</small>
 		{% endwith %}
+		{% if staff %}
+			<h3>Staff</h3>
+			<ul>
+			{% for participation in staff %}
+				<li><a href="{% url 'person' participation.person.id %}">{{participation.person}}</a> ({{participation.function_name}})</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
 	</div>
 	</div>
 	<h3>Participating teams</h3>
 	<div class="row">
-		{% for country, participations in participations %}
+		{% for country, team, second_team, leaders in participations %}
 		<div class="col-md-4">
 			<h4>{{country|country_url}}</h4>
 				{% include 'olymp/team_view.html' %}

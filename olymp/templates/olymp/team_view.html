@@ -1,23 +1,38 @@
 {% load staticfiles %}
 {% load customurls %}
 
+{% if team %}
+<strong>Contestants</strong>
 <ul>
-{% for participation in participations %}
-  {% if participation.function == "PAR" %}
+{% for participation in team %}
   <li>
     <a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a>
     {{ participation.award | award }}
   </li>
-  {% endif %}
 {% endfor %}
+</ul>
+{% endif %}
 
-{% for participation in participations %}
-  {% if participation.function != "PAR" %}
+{% if second_team %}
+<strong>Second team</strong>
+<ul>
+{% for participation in second_team %}
   <li>
     <a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a>
-    <span class="badge badge-primary"> {{ participation.function_name }}</span>
   </li>
-  {% endif %}
 {% endfor %}
+</ul>
+{% endif %}
+
+{% if leaders %}
+<strong>Team leaders</strong>
+<ul>
+{% for participation in leaders %}
+  <li>
+    <a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a>
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
 
 </ul>

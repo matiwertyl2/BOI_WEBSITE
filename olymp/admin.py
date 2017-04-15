@@ -75,7 +75,7 @@ class ParticipationInline(admin.TabularInline):
 
 class OlympiadAdmin(admin.ModelAdmin):
     inlines = [TaskInline, ParticipationInline]
-    list_display = ('__str__', 'number', 'country',
+    list_display = ('__str__', 'country',
                     'city', 'duration', 'attendees', 'participants_no',)
     search_fields = list_display
     list_filter = ('country', )

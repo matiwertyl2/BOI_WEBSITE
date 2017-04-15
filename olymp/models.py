@@ -70,8 +70,7 @@ class Olympiad(models.Model):
     city = models.CharField(max_length=200)
     country = models.ForeignKey(Country)
     start_date = models.DateField()
-    end_date = models.DateField()
-    number = models.IntegerField()
+    end_date = models.DateField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     logo = models.FileField(blank=True, upload_to='logos/')
     gold_threshold = models.FloatField(null=True, blank=True)
@@ -115,6 +114,9 @@ class Olympiad(models.Model):
         return list(sorted(list(set(
             [x.country for x in self.participation_set.all()])),
             key=lambda x: x.name))
+
+    def countries_number(self):
+        return len(self.participated_countries())
 
     def scores(self):
         return list(
@@ -218,7 +220,7 @@ class Participation(models.Model):
     @memoize(timeout=60)
     def award(self):
         if self.function != 'PAR':
-            return
+            return None
         if self.olympiad.gold_threshold is not None and \
                 self.final_score() >= self.olympiad.gold_threshold:
             return 'golden medal'

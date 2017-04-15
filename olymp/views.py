@@ -15,10 +15,19 @@ def olympiad(request, olympiad_id):
     participations = []
     for country in countries:
         participations.append((
-            country,
-            olympiad.participation_set.filter(country=country),
+             country,
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="PAR"),
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="OOC"),
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="LEA"),
         ))
-    context = {'olympiad': olympiad, 'participations': participations}
+    staff = olympiad.participation_set.filter(function="ORG")
+    staff |= olympiad.participation_set.filter(function="SC")
+    staff |= olympiad.participation_set.filter(function="TC")
+    context = {'olympiad': olympiad, 'participations': participations,
+               'staff': staff}
     return render(request, 'olymp/olympiad.html', context)
 
 
@@ -57,7 +66,13 @@ def country(request, country_id):
     for olympiad in country.participated_olympiads():
         participations.append(
             (olympiad,
-             Participation.objects.filter(country=country, olympiad=olympiad)))
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="PAR"),
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="OOC"),
+             Participation.objects.filter(
+                country=country, olympiad=olympiad, function="LEA"),
+             ))
     context = {'country': country, 'olympiads': olympiads,
                'participations': participations}
     return render(request, 'olymp/country.html', context)
