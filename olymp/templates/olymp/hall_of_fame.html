@@ -5,6 +5,7 @@ Hall of fame
 {% endblock %}
 
 {% load staticfiles %}
+{% load customurls %}
 
 {% block content %}
 
@@ -54,7 +55,7 @@ Hall of fame
 			<tbody>
 				{% for entity in countries %}
 				<tr>
-					<td><a href="{% url 'country' entity.code %}">{{ entity }}</a></td>
+					<td>{{ entity|country_url }}</td>
 					<td>{{ entity.participated_olympiads_no }}</td>
 					<td class="table-golden">{{ entity.golden_medals }}</td>
 					<td class="table-silver">{{ entity.silver_medals }}</td>

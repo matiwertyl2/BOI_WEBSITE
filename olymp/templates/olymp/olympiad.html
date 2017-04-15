@@ -4,6 +4,8 @@
 {{olympiad}}
 {% endblock %}
 
+{% load customurls %}
+
 {% block content %}
 
 	<div class="row">
@@ -29,7 +31,7 @@
 	<div class="row">
 		{% for country, participations in participations %}
 		<div class="col-md-4">
-			<h4><a href="{% url 'country' country.code %}">{{country}}</a></h4>
+			<h4>{{country|country_url}}</h4>
 				{% include 'olymp/team_view.html' %}
 		</div>
 		{% endfor %}

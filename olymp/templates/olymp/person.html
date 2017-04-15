@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% load staticfiles %}
+{% load customurls %}
 
 {% block content %}
 
@@ -22,19 +23,10 @@
     			{% for participation in person.participations_list %}
             <tr>
               <td><a href="{% url 'olympiad' participation.olympiad.id %}">{{ participation.olympiad }}</a></td>
-              <td><a href="{% url 'country' participation.country.code %}">{{ participation.country }}</a></td>
+              <td>{{ participation.country|country_url }}</td>
               <td>{{ participation.function_name }}</td>
               <td>
-                {% if participation.award == "golden medal" %}
-                  <img src="{% static 'olymp/golden.png' %}">
-                {% elif participation.award == "silver medal" %}
-                  <img src="{% static 'olymp/silver.png' %}">
-                {% elif participation.award == "bronze medal" %}
-                  <img src="{% static 'olymp/bronze.png' %}">
-                {% endif %}
-                {% if participation.award %}
-                  {{ participation.award }}
-                {% endif %}
+                {{ participation.award | award:True }}
               </td>
             </tr>
             {% endfor %}

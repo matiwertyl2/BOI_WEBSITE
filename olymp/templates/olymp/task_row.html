@@ -1,3 +1,5 @@
+{% load customurls %}
+
 <tr
   {% if chosen %}
   class="table-info"
@@ -9,7 +11,7 @@
   {% if chosen %}
 </br><small>randomly selected problem for you comes from
       <a href="{% url 'olympiad' task.olympiad.id %}">{{task.olympiad}}</a>
-      in   <a href="{% url 'country' task.olympiad.country.code %}">{{task.olympiad.country}}</a></small>
+      in {{task.olympiad.country|country_url}}</small>
   {% endif %}
 
 </td>

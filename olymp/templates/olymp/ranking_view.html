@@ -1,3 +1,5 @@
+{% load customurls %}
+
 {% if participations %}
   <table class="table table-hover">
     <thead class="table-inverse">
@@ -28,7 +30,7 @@
       >
         <td>{{ participation.place }} </td>
         <td><a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a></td>
-        <td><a href="{% url 'country' participation.country.code %}">{{ participation.country }}</a></td>
+        <td>{{ participation.country|country_url }}</a></td>
         {% if not short %}
           {% for score in participation.scores %}
             <td>

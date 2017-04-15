@@ -1,19 +1,23 @@
 {% load staticfiles %}
+{% load customurls %}
 
 <ul>
 {% for participation in participations %}
+  {% if participation.function == "PAR" %}
   <li>
     <a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a>
-    {% if participation.award == "golden medal" %}
-      <img src="{% static 'olymp/golden.png' %}">
-    {% elif participation.award == "silver medal" %}
-      <img src="{% static 'olymp/silver.png' %}">
-    {% elif participation.award == "bronze medal" %}
-      <img src="{% static 'olymp/bronze.png' %}">
-    {% endif %}
-    {% if participation.function != "PAR" %}
-      <span class="badge badge-primary"> {{ participation.function_name }}</span>
-    {% endif %}
+    {{ participation.award | award }}
   </li>
+  {% endif %}
 {% endfor %}
+
+{% for participation in participations %}
+  {% if participation.function != "PAR" %}
+  <li>
+    <a href="{% url 'person' participation.person.id %}">{{ participation.person }}</a>
+    <span class="badge badge-primary"> {{ participation.function_name }}</span>
+  </li>
+  {% endif %}
+{% endfor %}
+
 </ul>

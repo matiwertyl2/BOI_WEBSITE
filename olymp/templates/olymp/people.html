@@ -5,6 +5,7 @@ People
 {% endblock %}
 
 {% load staticfiles %}
+{% load customurls %}
 
 {% block content %}
 
@@ -15,13 +16,7 @@ People
 		{% for person in people %}
 			<li><a href="{% url 'person' person.id %}">{{ person }}</a>
 			{% for participation in person.participations_list %}
-				{% if participation.award == "golden medal" %}
-					<img src="{% static 'olymp/golden.png' %}">
-				{% elif participation.award == "silver medal" %}
-					<img src="{% static 'olymp/silver.png' %}">
-				{% elif participation.award == "bronze medal" %}
-					<img src="{% static 'olymp/bronze.png' %}">
-				{% endif %}
+				{{ participation.award | award }}
 			{% endfor %}
 			</li>
 		{% endfor %}

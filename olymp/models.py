@@ -146,7 +146,7 @@ class Task(models.Model):
             return round(
                 sum([x.result for x in submissions]) / len(submissions), 2)
         else:
-            return
+            return 0.0
 
     def perfect_scores_for_task(self):
         return len(list(filter(
@@ -174,7 +174,7 @@ class Person(Entity):
         verbose_name_plural = 'People'
 
     def participated_olympiads_no(self):
-        return len(self.participation_set.all())
+        return len(self.participation_set.filter(function="PAR"))
 
     def participations_list(self):
         return self.participation_set.all()

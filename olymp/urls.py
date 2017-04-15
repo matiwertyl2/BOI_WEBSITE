@@ -11,6 +11,5 @@ urlpatterns = [
     url(r'hall-of-fame/$', views.hall_of_fame, name='hall-of-fame'),
     url(r'(?P<olympiad_id>[0-9]+)/$', views.olympiad, name='olympiad'),
     url(r'(?P<olympiad_id>[0-9]+)/ranking/$', views.ranking, name='ranking'),
-    url(r'map/$', views.map, name='map'),
     url(r'$', views.olympiads, name='olympiads'),
 ]

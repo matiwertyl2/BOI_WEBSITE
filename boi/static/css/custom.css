@@ -204,3 +204,8 @@ h6, .h6 {
 .table-hover .table-ooc:hover>th{
   background-color:#46c646
 }
+
+.flag
+{
+  height: 0.5em;
+}

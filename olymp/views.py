@@ -30,8 +30,10 @@ def ranking(request, olympiad_id):
 
 def tasks(request):
     tasks = Task.objects.all()
-    from random import choice
-    chosen_task = choice(tasks)
+    chosen_task = None
+    if tasks:
+        from random import choice
+        chosen_task = choice(tasks)
     context = {'tasks': tasks, 'chosen_task': chosen_task}
     return render(request, 'olymp/tasks.html', context)
 
@@ -62,13 +64,18 @@ def country(request, country_id):
 
 
 def hall_of_fame(request):
-    treshold = sorted(Person.objects.all(),
-                      key=lambda p: p.medals_score())[-10]
-    people = [x for x in Person.objects.all()
-              if x.medals_score() >= treshold.medals_score()]
+    people = sorted(Person.objects.all(),
+                    key=lambda p: p.medals_score())
+    awardedPeople = []
+    if people:
+        index = -min(10, len(people))
+        treshold = people[index]
+        awardedPeople = [x for x in Person.objects.all()
+                         if x.medals_score() >= treshold.medals_score()]
     countries = Country.objects.all()
     context = {
-        'people': reversed(sorted(people, key=lambda p: p.medals_score())),
+        'people': reversed(sorted(awardedPeople,
+                                  key=lambda p: p.medals_score())),
         'countries': reversed(
             sorted(countries, key=lambda p: p.medals_score()))
     }
