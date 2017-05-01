@@ -88,11 +88,11 @@ class Person(Entity):
 
     def participations_list(self):
         olympiads = set([x.olympiad for x in self.participation_set.all()])
-        list = []
-        for olympiad in olympiads:
-            list.append((olympiad,
-                         self.participation_set.filter(olympiad=olympiad)))
-        return list
+        res = []
+        for olympiad in reversed(list(olympiads)):
+            res.append((olympiad,
+                        self.participation_set.filter(olympiad=olympiad)))
+        return res
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -180,10 +180,10 @@ class Task(models.Model):
     test = models.BooleanField('Test task (not counted in final score)?',
                                default=False)
     day = models.IntegerField(choices=day_choices, blank=True, null=True)
-    #statement = models.FileField(blank=True, null=True)
-    #solution = models.FileField(blank=True, null=True)
-    #tests = models.FileField(blank=True, null=True)
-    #spoiler = models.FileField(blank=True, null=True)
+    # statement = models.FileField(blank=True, null=True)
+    # solution = models.FileField(blank=True, null=True)
+    # tests = models.FileField(blank=True, null=True)
+    # spoiler = models.FileField(blank=True, null=True)
     perfect_score = models.FloatField(default=100.0)
 
     class Meta:
