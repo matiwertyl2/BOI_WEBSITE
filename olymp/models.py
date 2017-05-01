@@ -86,7 +86,12 @@ class Person(Entity):
         return len(self.participation_set.filter(function="PAR"))
 
     def participations_list(self):
-        return self.participation_set.all()
+        olympiads = set([x.olympiad for x in self.participation_set.all()])
+        list = []
+        for olympiad in olympiads:
+            list.append((olympiad,
+                         self.participation_set.filter(olympiad=olympiad)))
+        return list
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -122,7 +127,7 @@ class Olympiad(models.Model):
         return problems
 
     def people(self):
-        return self.participation_set.all()
+        return set(x.person for x in self.participation_set.all())
 
     def participants(self):
         return list(sorted(filter(
@@ -138,8 +143,7 @@ class Olympiad(models.Model):
         return self.participation_set.filter(function="PRE")
 
     def organizing_committee(self):
-        return self.participation_set.filter(function="ORG") | \
-               self.participation_set.filter(function="PRE")
+        return self.participation_set.filter(function="ORG")
 
     def scientific_committee(self):
         return self.participation_set.filter(function="SC")

@@ -19,17 +19,22 @@
             </tr>
           </thead>
           <tbody>
-    			{% for participation in person.participations_list %}
+    			{% for olympiad, participations in person.participations_list %}
             <tr>
-              <td><a href="{% url 'olympiad' participation.olympiad.id %}">{{ participation.olympiad }}</a></td>
-              <td>{{ participation.country|country_url }}</td>
+              {% with participations|first as first_participation %}
+              <td><a href="{% url 'olympiad' olympiad.id %}">{{ olympiad }}</a></td>
+              <td>{{ first_participation.country|country_url }}</td>
               <td>
-                {% if participation.award %}
-                  {{ participation.award | award:True }}
-                {% else %}
-                  {{ participation.function_name }} 
-                {% endif %}
+                {% for participation in participations %}
+                  {% if participation.award %}
+                    {{participation.award | award:True}}
+                  {% else %}
+                    {{participation.function_name}}
+                  {% endif %}
+                  {% if not forloop.last %}, {% endif %}
+                {% endfor %}
               </td>
+              {% endwith %}
             </tr>
             {% endfor %}
           </tbody>
