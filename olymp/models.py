@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from collections import defaultdict
 from memoize import memoize
 from collections import defaultdict
+from boi.settings import TIMEOUT
 
 
 class Entity(models.Model):
@@ -11,7 +12,7 @@ class Entity(models.Model):
     class Meta:
         abstract = True
 
-    @memoize(timeout=60)
+    @memoize(timeout=TIMEOUT)
     def awards(self):
         awards = defaultdict(int)
         for part in self.participation_set.all():
@@ -250,7 +251,7 @@ class Participation(models.Model):
     def function_name(self):
         return dict(Participation.function_list)[self.function]
 
-    @memoize(timeout=60)
+    @memoize(timeout=TIMEOUT)
     def final_score(self):
         scores = self.score_set.all()
         scores_without_test_tasks = list(filter(
@@ -261,7 +262,7 @@ class Participation(models.Model):
             return sum(final_scores)
         return 0.0
 
-    @memoize(timeout=60)
+    @memoize(timeout=TIMEOUT)
     def award(self):
         if self.function != 'PAR':
             return None
@@ -281,7 +282,7 @@ class Participation(models.Model):
             scores.append(self.score_set.get(task=problem).result)
         return scores
 
-    @memoize(timeout=60)
+    @memoize(timeout=TIMEOUT)
     def place(self):
         if self.function != 'PAR':
             return
