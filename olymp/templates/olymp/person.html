@@ -29,9 +29,7 @@
                   {% if participation.award %}
                     {{participation.award | award:True}}
                   {% else %}
-                    {{participation.function_name}}
-                  {% endif %}
-                  {% if not forloop.last %}, {% endif %}
+                    {{participation.function_name}}{% endif %}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
               </td>
               {% endwith %}

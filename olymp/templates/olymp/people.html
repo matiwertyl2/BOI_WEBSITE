@@ -15,8 +15,8 @@ People
 		<ul>
 		{% for person in people %}
 			<li><a href="{% url 'person' person.id %}">{{ person }}</a>
-			{% for participation in person.participations_list %}
-				{{ participation.award | award }}
+			{% for _, participation in person.participations_list %}
+				{{ participation.0.award | award }}
 			{% endfor %}
 			</li>
 		{% endfor %}

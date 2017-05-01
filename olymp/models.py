@@ -239,7 +239,7 @@ class Participation(models.Model):
      ('PAR', 'participant'),
      ('LEA', 'team leader'),
      ('OOC', 'second team (out of competition)'),
-     ('PRE', 'president of the competition'),
+     ('PRE', 'main organizer'),
      ('ORG', 'organization committee'),
      ('SC', 'scientific committee'),
      ('TC', 'technical committee'),
