@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
+    url(r'tasks/(?P<task_id>[0-9]+)/$', views.task, name='task'),
     url(r'tasks/$', views.tasks, name='tasks'),
     url(r'people/(?P<person_id>[0-9]+)/$', views.person, name='person'),
     url(r'people/$', views.people, name='people'),

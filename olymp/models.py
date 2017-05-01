@@ -175,10 +175,10 @@ class Task(models.Model):
     test = models.BooleanField('Test task (not counted in final score)?',
                                default=False)
     day = models.IntegerField(choices=day_choices, blank=True, null=True)
-    statement = models.FileField(blank=True, null=True)
-    solution = models.FileField(blank=True, null=True)
-    tests = models.FileField(blank=True, null=True)
-    spoiler = models.FileField(blank=True, null=True)
+    #statement = models.FileField(blank=True, null=True)
+    #solution = models.FileField(blank=True, null=True)
+    #tests = models.FileField(blank=True, null=True)
+    #spoiler = models.FileField(blank=True, null=True)
     perfect_score = models.FloatField(default=100.0)
 
     class Meta:
@@ -205,9 +205,23 @@ class Task(models.Model):
             return choice(ps)
         return None
 
+    def files(self):
+        return self.taskfile_set.all()
+
     def __str__(self):
         return 'Problem {} ({}) on {}'.format(self.name, self.shortcut,
                                               str(self.olympiad))
+
+
+class TaskFile(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    desc = models.CharField(max_length=100, blank=True, null=True)
+    file = models.FileField(blank=True, upload_to='tasks/')
+    file_types = [(x, x) for x in
+                  ['statement', 'tests', 'solution', 'spoiler', 'other']]
+    type = models.CharField(choices=file_types, max_length=10, blank=True,
+                            null=True)
+    language = models.ForeignKey(Country, blank=True, null=True)
 
 
 class Participation(models.Model):

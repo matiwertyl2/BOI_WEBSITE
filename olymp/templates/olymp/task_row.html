@@ -7,7 +7,7 @@
 >
 <td>
 
-  <strong> {{task.name}}</strong> ({{task.shortcut}})
+  <a href="{% url 'task' task.id %}"><strong>{{task.name}}</strong> ({{task.shortcut}})</a>
   {% if chosen %}
 </br><small>randomly selected problem for you comes from
       <a href="{% url 'olympiad' task.olympiad.id %}">{{task.olympiad}}</a>
@@ -18,20 +18,6 @@
 {% if not olympiad_view %}
   <td> <a href="{% url 'olympiad' task.olympiad.id %}">{{task.olympiad}}</a> </td>
 {% endif %}
-  <td>
-    {% if task.statement.name %}
-    <a href="/media/{{task.statement}}">statements</a>
-    {% endif %}
-    {% if task.spoiler.name %}
-    <a href="/media/{{task.spoiler}}">spoilers</a>
-    {% endif %}
-    {% if task.tests.name %}
-    <a href="/media/{{task.tests}}">tests</a>
-    {% endif %}
-    {% if task.solution.name %}
-    <a href="/media/{{task.solution}}">solutions</a>
-    {% endif %}
-  </td>
   <td>{{task.average_score_for_task}}</td>
   <td>{{task.perfect_scores_for_task|length}}
     {% if chosen and task.perfect_score_example %}

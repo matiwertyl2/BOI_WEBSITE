@@ -1,12 +1,24 @@
 from django.contrib import admin
-from .models import Olympiad, Task,  Person, Participation, Score, Country
+from .models import Olympiad, Task, TaskFile, Person, Participation, \
+                    Score, Country
+
+
+class TaskFileInline(admin.TabularInline):
+    model = TaskFile
+    fields = ('desc', 'file', 'type', 'language', )
+    extra = 0
+    show_change_link = True
 
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('name', 'shortcut', 'olympiad', 'day', 'test',
-                    'average_score', 'perfect_scores_for_task', )
+                    'average_score', 'perfect_scores_for_task_no', )
     search_fields = ('name', 'shortcut', )
     list_filter = ('olympiad', )
+    inlines = [TaskFileInline]
+
+    def perfect_scores_for_task_no(self, obj):
+        return len(obj.perfect_scores_for_task())
 
     def average_score(self, obj):
         return str(obj.average_score_for_task()) + "/" + str(obj.perfect_score)
@@ -119,6 +131,7 @@ class CountryAdmin(admin.ModelAdmin):
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Olympiad, OlympiadAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskFile)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Participation, ParticipationAdmin)
 admin.site.register(Score, ScoreAdmin)

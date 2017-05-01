@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Task {{task.name}} <small>({{task.shortcut}})</small>
+{% endblock %}
+
+{% load staticfiles %}
+{% load customurls %}
+
+{% block content %}
+  <div class="row">
+  <div class="col-md-6">
+    <table class="table">
+		<tr><td><strong>Olympiad</strong></td><td> <a href="{% url 'olympiad' task.olympiad.id %}">{{task.olympiad}}</a> in {{task.olympiad.country|country_url}}</td></tr>
+    {% if task.day %}
+      <tr><td><strong>Day</strong></td><td> {{task.day}}</td></tr>
+    {% endif %}
+    {% if task.test %}
+      <tr><td colspan="2"><strong>Test task</strong> (not counted in final score)</td></tr>
+    {% endif %}
+    <tr><td><strong>Average score</strong></td><td> {{task.average_score_for_task}}/{{task.perfect_score}}</td></tr>
+    <tr><td><strong>Perfect scores</strong></td><td> {{task.perfect_scores_for_task|length}}</td></tr>
+    </table>
+  </div>
+  <div class="col-md-6">
+      <h4>Files</h4>
+      {% if task.files %}
+        <table class="table table-hover">
+        <thead>
+          <tr><th>File</th><th>Type</th><th>Size</th></tr>
+        </thead>
+        {% for file in task.files %}
+          <tr><td>
+            <a href="/media/{{file.file}}">
+            {% if file.desc %}
+              {{file.desc}}
+            {% else %}
+              {{file.file.name}}
+            {% endif %}
+            </a>
+          </td>
+          <td>
+            {% if file.type %}
+              {{file.type}}
+            {% endif %}
+            {% if file.language %}
+              <img class="flag" src="/static/flags/{{file.language.code}}.gif">
+            {% endif %}
+          </td>
+          <td>
+            {{file.file.size|filesizeformat}}
+          </td>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p>No files found.</p>
+      {% endif %}
+  </div>
+  </div>
+{% endblock %}

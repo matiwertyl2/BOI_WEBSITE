@@ -55,6 +55,12 @@ def people(request):
     return render(request, 'olymp/people.html', context)
 
 
+def task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    context = {'task': task}
+    return render(request, 'olymp/task.html', context)
+
+
 def country(request, country_id):
     country = get_object_or_404(Country, pk=country_id)
     olympiads = country.organized_olympiads()
